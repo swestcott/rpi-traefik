@@ -1,17 +1,21 @@
-FROM hypriot/rpi-alpine:3.6
+FROM resin/armhf-alpine:3.7
 
 LABEL maintainer="swestcott@gmail.com"
 
 ENV TRAEFIK_VERSION 1.5.1
 
-RUN sed -i -e 's/http/https/g' /etc/apk/repositories \
-	&& apk upgrade --no-cache \
-	&& apk add --no-cache ca-certificates
+RUN ["cross-build-start"]
 
 ADD https://github.com/containous/traefik/releases/download/v${TRAEFIK_VERSION}/traefik_linux-arm /traefik
+
+RUN apk --update upgrade \
+    && apk add ca-certificates \
+    && rm -r /var/cache/apk/* \
+    && chmod +x /traefik
+
 #COPY traefik_linux-arm /traefik
 
-RUN chmod +x /traefik
+RUN ["cross-build-end"]
 
 EXPOSE 80 443 8080
 
