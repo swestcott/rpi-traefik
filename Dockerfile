@@ -2,7 +2,7 @@ FROM resin/armhf-alpine:3.7
 
 LABEL maintainer="swestcott@gmail.com"
 
-ENV TRAEFIK_VERSION 1.6.0-rc6
+ENV TRAEFIK_VERSION 1.6.0
 
 RUN ["cross-build-start"]
 
